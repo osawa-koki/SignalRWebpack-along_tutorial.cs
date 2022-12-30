@@ -39,3 +39,22 @@ docker build -t signalr-chat-webpack . && docker run -p 80:7777 -it --rm --name 
 | Visual Studio | 2022 |
 | .NET | 6.0 |
 | C# | .NET依存 |
+
+## 補足事項
+
+普通にDockerでビルドすると「error MSB6003: The specified task executable "node" could not be run. System.ComponentModel.Win32Exception (2): An error occurred trying to start process 'node' with working directory '/src'. No such file or directory [/src/SignalRWebpack.csproj」というエラーが発生する。  
+
+Dockerでは当然Node環境は存在しないためであるが、ここではマルチステージングビルドでなんとか解決した。  
+他にいい方法があればいいんだけど、、、  
+
+csprojファイルの以下の部分がそれっぽかったので、それをコメントアウトして、Dockerfikeでマルチステージング処理を書いたら普通に動作した。  
+思ったよりもスムーズに問題解決ができてちょっとうれしい💓💓💓  
+
+```csproj
+<ItemGroup>
+  <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.8.4">
+    <PrivateAssets>all</PrivateAssets>
+    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+  </PackageReference>
+</ItemGroup>
+```
