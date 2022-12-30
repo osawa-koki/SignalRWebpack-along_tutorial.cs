@@ -2,7 +2,7 @@
 
 マイクロソフト公式チュートリアルに沿って作成した、TypeScriptを使用したSignalRによるWebSocket通信を行う学習用プログラムです。
 
-![サンプル画像](/dev/data/sample.gif)
+![サンプル画像](/dev/data/sample.gif)  
 
 ## 対象のチュートリアル
 
