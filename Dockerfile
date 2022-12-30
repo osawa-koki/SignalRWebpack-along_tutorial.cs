@@ -1,3 +1,9 @@
+
+FROM node:19-bullseye-slim AS web_client
+WORKDIR /usr/src
+COPY ./SignalRWebpack ./web_client
+RUN cd ./web_client && npm install && npm run release
+
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
@@ -17,4 +23,5 @@ RUN dotnet publish SignalRWebpack.csproj -c Release -o /app/publish /p:UseAppHos
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY --from=web_client /usr/src/web_client/wwwroot .
 ENTRYPOINT ["dotnet", "SignalRWebpack.dll"]
