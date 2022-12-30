@@ -23,5 +23,5 @@ RUN dotnet publish SignalRWebpack.csproj -c Release -o /app/publish /p:UseAppHos
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY --from=web_client /usr/src/web_client/wwwroot .
+COPY --from=web_client /usr/src/web_client/wwwroot ./wwwroot
 ENTRYPOINT ["dotnet", "SignalRWebpack.dll"]
